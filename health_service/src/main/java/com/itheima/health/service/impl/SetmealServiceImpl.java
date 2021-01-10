@@ -13,6 +13,8 @@ import com.itheima.health.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Author Ma zhi lin
  * @Date 2021/1/8 21:45
@@ -58,6 +60,70 @@ public class SetmealServiceImpl implements SetmealService {
         Page<Setmeal> page = setmealDao.findByCondition(queryPageBean.getQueryString());
         //放进去总记录数 和
         return new PageResult<Setmeal>(page.getTotal(),page.getResult());
+
+    }
+
+    /*
+    * 通过ID查询套餐的信息
+    * */
+    @Override
+    public Setmeal findById(int id) {
+        //直接调用Dao方法调用，然后返回
+        return setmealDao.findById(id);
+    }
+
+    /*
+    * 通过ID查询选中的检查组的IDS
+    * */
+    @Override
+    public List<Integer> findCheckGroupIdsBySetmealId(int id) {
+        return setmealDao.findCheckGroupIdsBySetmealId(id);
+    }
+
+
+    /*
+     * 更新套餐
+     * 1.要更新套餐信息
+     * 2.删除旧关系
+     * 3.添加新关系 并进行判断
+     * */
+    @Override
+    public void update(Setmeal setmeal, Integer[] checkgroupIds) {
+        setmealDao.update(setmeal);
+        setmealDao.deleteSetmealCheckGroup(setmeal.getId());
+        //添加新关系
+        if (null != checkgroupIds){
+            for (Integer checkgroupId : checkgroupIds) {
+                setmealDao.addSetmealCheckGroup(setmeal.getId(),checkgroupId);
+            }
+        }
+
+
+    }
+
+    /*
+    * 根据ID删除套餐
+    * 1.判断此订单是否被使用
+    * 2.使用了的话要报异常不能删除
+    * 3.没有使用先删除套餐和检查组绑定关系
+    * 4.在删除套餐
+    * */
+    @Override
+    public void deleteById(int id) {
+        //判断订单是否被使用
+        int count = setmealDao.findCountBySetmealId(id);
+        //做判断如果使用则报异常
+        if (count>0) {
+            try {
+                throw new  Exception("该订单已被使用，不能删除");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        //没有使用先删除套餐和检查组绑定关系
+        setmealDao.deleteSetmealCheckGroup(id);
+        //在删除套餐
+        setmealDao.deleteById(id);
 
     }
 }
