@@ -39,4 +39,14 @@ public interface OrderSettingDao {
      * @return
      */
     List<OrderSetting> findByMouth(Map map);
+
+    /**
+     * //更新已预约人数
+     * @param orderSetting
+     * @return 受影响的记录数
+     */
+
+    int editReservationsByOrderDate(OrderSetting orderSetting);
+
+
 }

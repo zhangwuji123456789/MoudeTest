@@ -15,6 +15,8 @@
         <module>health_interface</module>
         <module>health_service</module>
         <module>health_web</module>
+        <module>health_mobile</module>
+        <module>health_jobs</module>
     </modules>
 
 
@@ -37,10 +39,16 @@
         <poi.version>3.14</poi.version>
         <jedis.version>2.9.0</jedis.version>
         <quartz.version>2.2.1</quartz.version>
+        <freemarker.version>2.3.23</freemarker.version>
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -202,6 +210,13 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -210,6 +225,7 @@
         </dependency>
     </dependencies>
     <build>
+
         <plugins>
             <!-- java编译插件 -->
             <plugin>

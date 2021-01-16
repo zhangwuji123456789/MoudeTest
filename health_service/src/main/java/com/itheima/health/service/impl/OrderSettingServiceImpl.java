@@ -64,6 +64,7 @@ public class OrderSettingServiceImpl implements OrderSettingService {
 
     /**
      * 根据参数修改值
+     * @param orderSetting
      */
     @Override
     public void update(OrderSetting orderSetting) {

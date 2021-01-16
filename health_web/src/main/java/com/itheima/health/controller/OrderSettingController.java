@@ -60,8 +60,9 @@ public class OrderSettingController {
     }
 
     /**
-     *
      * 通过月份展示预约信息
+     * @param mouth
+     * @return
      */
     @GetMapping("/getOrderSettingByMonth")
     public Result getOrderSettingByMonth(String mouth){
@@ -71,6 +72,8 @@ public class OrderSettingController {
 
     /**
      * 根据参数修改值
+     * @param orderSetting
+     * @return
      */
     @PostMapping("/editNumberByDate")
     public Result editNumberByDate(@RequestBody OrderSetting orderSetting){

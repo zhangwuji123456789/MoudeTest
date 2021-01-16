@@ -15,7 +15,7 @@ public interface SetmealService {
     /*
     * 添加套餐
     * */
-    void add(Setmeal setmeal, Integer[] checkgroupIds);
+    Integer add(Setmeal setmeal, Integer[] checkgroupIds);
 
     /*
     * 分页查询
@@ -44,4 +44,19 @@ public interface SetmealService {
     * 根据ID删除套餐
     * */
     void deleteById(int id);
+
+    /**
+     * 查询所有套餐
+     * @return
+     */
+    List<Setmeal> findAll();
+
+
+
+    /**
+     * 根据ID查询详情信息
+     * @param id
+     * @return
+     */
+    Setmeal findDetailById(int id);
 }

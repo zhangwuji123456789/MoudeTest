@@ -18,8 +18,8 @@ import java.util.List;
 
 public class QiNiuUtils {
 
-    private static final String ACCESSKEY = "Opk3FCUB-e6EhrVM3jshKMnJg9P24cnSeb7WfPIR";
-    private static final String SECRETKEY = "Uv4OxGPUiC8CJcOiBcJOIPn1Dy9KDh1l3Fhl4EjZ";
+    private static final String ACCESSKEY = "";
+    private static final String SECRETKEY = "";
     private static final String BUCKET = "zhilin98";
     public static final String DOMAIN= "http://qmm5h0tub.hn-bkt.clouddn.com/";
 

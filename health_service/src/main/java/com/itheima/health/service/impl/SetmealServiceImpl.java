@@ -1,7 +1,7 @@
 package com.itheima.health.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.alibaba.dubbo.container.page.PageHandler;
+
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
@@ -28,7 +28,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     @Transactional
-    public void add(Setmeal setmeal, Integer[] checkgroupIds) {
+    public Integer add(Setmeal setmeal, Integer[] checkgroupIds) {
         //先添加套餐
         setmealDao.add(setmeal);
         //获取套餐的id
@@ -40,6 +40,7 @@ public class SetmealServiceImpl implements SetmealService {
                 setmealDao.addSetmealCheckGroup(id,checkgroupId);
             }
         }
+        return id;
 
 
     }
@@ -125,5 +126,27 @@ public class SetmealServiceImpl implements SetmealService {
         //在删除套餐
         setmealDao.deleteById(id);
 
+    }
+
+    /**
+     * 查询所有套餐
+     *
+     * @return
+     */
+    @Override
+    public List<Setmeal> findAll() {
+        return setmealDao.findAll();
+    }
+
+
+    /**
+     *
+     * 根据ID查询所有套餐信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Setmeal findDetailById(int id) {
+        return setmealDao.findDetailById(id);
     }
 }

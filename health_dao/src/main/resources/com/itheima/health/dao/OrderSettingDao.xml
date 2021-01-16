@@ -21,4 +21,9 @@
     <select id="findByMouth" parameterType="map" resultType="OrderSetting">
           select * from t_ordersetting where orderDate between #{monthStar} and #{monthEnd}
     </select>
+
+    <!--更新已预约人数-->
+    <update id="editReservationsByOrderDate" parameterType="OrderSetting">
+        update t_ordersetting set reservations = reservations+1 where orderDate = #{orderDate}
+    </update>
 </mapper>

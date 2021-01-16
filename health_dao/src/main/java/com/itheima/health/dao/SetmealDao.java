@@ -60,4 +60,21 @@ public interface SetmealDao {
     * 根据ID删除套餐
     * */
     void deleteById(int id);
+
+    /**
+     * 查询所有套餐
+     *
+     * @return
+     */
+    List<Setmeal> findAll();
+
+
+
+    /**
+     *
+     * 根据ID查询所有套餐信息
+     * @param id
+     * @return
+     */
+    Setmeal findDetailById(int id);
 }

@@ -1,6 +1,7 @@
 package com.itheima.health.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.pagehelper.PageHelper;
 import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
@@ -62,5 +63,6 @@ public class CheckItemController {
        return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
 
     }
+
 
 }

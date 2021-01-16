@@ -14,7 +14,6 @@ import java.util.List;
  */
 public interface CheckItemService {
 
-
     /*
     *
     * 查询所有

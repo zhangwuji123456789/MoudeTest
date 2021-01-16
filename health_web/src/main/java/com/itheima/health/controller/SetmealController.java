@@ -14,9 +14,11 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 
 import java.io.IOException;
@@ -39,6 +41,9 @@ public class SetmealController {
 
         @Reference
         private SetmealService setmealService;
+
+        @Autowired
+        private JedisPool jedisPool;
     /**
      * 上传图片
      */
@@ -80,7 +85,14 @@ public class SetmealController {
     @PostMapping("/add")
     public Result add(@RequestBody Setmeal setmeal,Integer[] checkgroupIds){
         //调用添加服务套餐
-        setmealService.add(setmeal,checkgroupIds);
+        Integer id = setmealService.add(setmeal,checkgroupIds);
+        // 添加成功, 生成静态页面
+        Jedis jedis = jedisPool.getResource();
+        String key = "setmeal:static:html";
+        Long currentTimeMillis = System.currentTimeMillis();
+        // zadd setmeal:static:html 时间戳 套餐id|操作符|时间戳
+        jedis.zadd(key, currentTimeMillis.doubleValue(),id+"|1|" + currentTimeMillis);
+        jedis.close();
         return new Result(true,MessageConstant.ADD_SETMEAL_SUCCESS);
 
     }
@@ -148,6 +160,12 @@ public class SetmealController {
     @PostMapping("/update")
     public Result update(@RequestBody Setmeal setmeal ,Integer[] checkgroupIds){
         setmealService.update(setmeal,checkgroupIds);
+        Jedis jedis = jedisPool.getResource();
+        String key = "setmeal:static:html";
+        Long currentTimeMillis = System.currentTimeMillis();
+        // zadd setmeal:static:html 时间戳 套餐id|操作符|时间戳
+        jedis.zadd(key, currentTimeMillis.doubleValue(),setmeal.getId()+"|1|" + currentTimeMillis);
+        jedis.close();
         return new Result(true,MessageConstant.EDIT_SETMEAL_SUCCESS);
     }
     /*
@@ -157,6 +175,12 @@ public class SetmealController {
     public Result deleteById(int id){
        //调用删除方法
        setmealService.deleteById(id);
+       Jedis jedis = jedisPool.getResource();
+       String key = "setmeal:static:html";
+       Long currentTimeMillis = System.currentTimeMillis();
+       // zadd setmeal:static:html 时间戳 套餐id|操作符|时间戳
+       jedis.zadd(key, currentTimeMillis.doubleValue(),id+"|0|" + currentTimeMillis);
+       jedis.close();
        return new Result(true,MessageConstant.DELETE_Setmeal_SUCCESS);
    }
 
